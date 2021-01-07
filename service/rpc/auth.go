@@ -3,7 +3,7 @@ package rpc
 import (
 	"context"
 
-	"github.com/naiba/nezha/service/dao"
+	"github.com/XOS/Probe/service/dao"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
