@@ -2,7 +2,7 @@ before:
   hooks:
     - go mod tidy -v
 builds:
-  - id: nezha-agent
+  - id: probe-agent
     env:
       - CGO_ENABLED=0
     goos:
@@ -17,13 +17,13 @@ builds:
       - mips
       - mips64
     main: ./cmd/agent
-    binary: nezha-agent
+    binary: probe-agent
 checksum:
   name_template: "checksums.txt"
 snapshot:
   name_template: "{{.ProjectName}}"
 archives:
-  - name_template: "nezha-agent_{{ .Os }}_{{ .Arch }}"
+  - name_template: "probe-agent_{{ .Os }}_{{ .Arch }}"
 changelog:
   sort: asc
   filters:
