@@ -18,7 +18,7 @@ type Server struct {
 	State      *State `gorm:"-"`
 	LastActive time.Time
 
-	Stream      pb.NezhaService_HeartbeatServer `gorm:"-" json:"-"`
+	Stream      pb.ProbeService_HeartbeatServer `gorm:"-" json:"-"`
 	StreamClose chan<- error                    `gorm:"-" json:"-"`
 }
 
