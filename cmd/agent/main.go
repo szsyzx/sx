@@ -13,11 +13,11 @@ import (
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 
-	"github.com/naiba/nezha/model"
-	pb "github.com/naiba/nezha/proto"
-	"github.com/naiba/nezha/service/dao"
-	"github.com/naiba/nezha/service/monitor"
-	"github.com/naiba/nezha/service/rpc"
+	"github.com/XOS/Probe/model"
+	pb "github.com/XOS/Probe/proto"
+	"github.com/XOS/Probe/service/dao"
+	"github.com/XOS/Probe/service/monitor"
+	"github.com/XOS/Probe/service/rpc"
 )
 
 var (
@@ -28,9 +28,9 @@ var (
 	version      string
 
 	rootCmd = &cobra.Command{
-		Use:   "nezha-agent",
-		Short: "「哪吒面板」监控、备份、站点管理一站式服务",
-		Long: `哪吒面板
+		Use:   "probe-agent",
+		Short: "「探针面板」监控、备份、站点管理一站式服务",
+		Long: `探针面板
 ================================
 监控、备份、站点管理一站式服务
 啦啦啦，啦啦啦，我是 mjj 小行家`,
@@ -41,7 +41,7 @@ var (
 
 var (
 	reporting      bool
-	client         pb.NezhaServiceClient
+	client         pb.ProbeServiceClient
 	ctx            = context.Background()
 	delayWhenError = time.Second * 10
 	updateCh       = make(chan struct{}, 0)
@@ -105,7 +105,7 @@ func run(cmd *cobra.Command, args []string) {
 
 	var err error
 	var conn *grpc.ClientConn
-	var hc pb.NezhaService_HeartbeatClient
+	var hc pb.ProbeService_HeartbeatClient
 
 	retry := func() {
 		log.Println("Error to close connection ...")
@@ -123,7 +123,7 @@ func run(cmd *cobra.Command, args []string) {
 			retry()
 			continue
 		}
-		client = pb.NewNezhaServiceClient(conn)
+		client = pb.NewProbeServiceClient(conn)
 		// 第一步注册
 		_, err = client.Register(ctx, monitor.GetHost().PB())
 		if err != nil {
@@ -146,7 +146,7 @@ func run(cmd *cobra.Command, args []string) {
 	}
 }
 
-func receiveCommand(hc pb.NezhaService_HeartbeatClient) error {
+func receiveCommand(hc pb.ProbeService_HeartbeatClient) error {
 	var err error
 	var action *pb.Command
 	defer log.Printf("receiveCommand exit %v %v => %v", time.Now(), action, err)
