@@ -20,10 +20,10 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Log into registry
-        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u xos --password-stdin
 
       - name: Build and push dasbboard image
         run: |
           go test -v ./... 
-          docker build -t ghcr.io/${{ github.repository_owner }}/dashboard -f Dockerfile.dashboard .
-          docker push ghcr.io/${{ github.repository_owner }}/dashboard
+          docker build -t ghcr.io/xos/dashboard -f Dockerfile.dashboard .
+          docker push ghcr.io/xos/dashboard
