@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package proto;
 
-service NezhaService {
+service ProbeService {
     rpc Heartbeat(Beat)returns(stream Command){}
     rpc ReportState(State)returns(Receipt){}
     rpc Register(Host)returns(Receipt){}
