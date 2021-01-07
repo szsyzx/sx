@@ -9,8 +9,8 @@ import (
 	"code.cloudfoundry.org/bytefmt"
 	"github.com/gin-gonic/gin"
 
-	"github.com/naiba/nezha/pkg/mygin"
-	"github.com/naiba/nezha/service/dao"
+	"github.com/XOS/Probe/pkg/mygin"
+	"github.com/XOS/Probe/service/dao"
 )
 
 // ServeWeb ..
