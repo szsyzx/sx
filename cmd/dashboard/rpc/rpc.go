@@ -6,14 +6,14 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "github.com/naiba/nezha/proto"
-	rpcService "github.com/naiba/nezha/service/rpc"
+	pb "github.com/XOS/Probe/proto"
+	rpcService "github.com/XOS/Probe/service/rpc"
 )
 
 // ServeRPC ...
 func ServeRPC(port uint) {
 	server := grpc.NewServer()
-	pb.RegisterNezhaServiceServer(server, &rpcService.NezhaHandler{
+	pb.RegisterProbeServiceServer(server, &rpcService.ProbeHandler{
 		Auth: &rpcService.AuthHandler{},
 	})
 	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
