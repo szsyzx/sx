@@ -8,11 +8,11 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"github.com/naiba/nezha/cmd/dashboard/controller"
-	"github.com/naiba/nezha/cmd/dashboard/rpc"
-	"github.com/naiba/nezha/model"
-	"github.com/naiba/nezha/service/alertmanager"
-	"github.com/naiba/nezha/service/dao"
+	"github.com/XOS/Probe/cmd/dashboard/controller"
+	"github.com/XOS/Probe/cmd/dashboard/rpc"
+	"github.com/XOS/Probe/model"
+	"github.com/XOS/Probe/service/alertmanager"
+	"github.com/XOS/Probe/service/dao"
 )
 
 func init() {
