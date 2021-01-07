@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/naiba/nezha/model"
-	"github.com/naiba/nezha/service/dao"
+	"github.com/XOS/Probe/model"
+	"github.com/XOS/Probe/service/dao"
 )
 
 // CommonEnvironment ..
