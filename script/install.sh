@@ -135,7 +135,7 @@ install_dashboard() {
 
     echo -e "> 安装面板"
 
-    # 哪吒面板文件夹
+    # 探针面板文件夹
     mkdir -p $DASHBOARD_PATH
     chmod 777 -R $DASHBOARD_PATH
 
@@ -176,7 +176,7 @@ install_agent() {
 
     echo -e "> 安装监控Agent"
 
-    # 哪吒面板文件夹
+    # 探针面板文件夹
     mkdir -p $AGENT_PATH
     chmod 777 -R $AGENT_PATH
 
@@ -300,7 +300,7 @@ restart_and_update() {
     docker-compose down
     docker-compose up -d
     if [[ $? == 0 ]]; then
-        echo -e "${green}哪吒面板 重启成功${plain}"
+        echo -e "${green}探针面板 重启成功${plain}"
         echo -e "默认管理面板地址：${yellow}域名:站点访问端口${plain}"
     else
         echo -e "${red}重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息${plain}"
@@ -316,7 +316,7 @@ start_dashboard() {
 
     cd $DASHBOARD_PATH && docker-compose up -d
     if [[ $? == 0 ]]; then
-        echo -e "${green}哪吒面板 启动成功${plain}"
+        echo -e "${green}探针面板 启动成功${plain}"
     else
         echo -e "${red}启动失败，请稍后查看日志信息${plain}"
     fi
@@ -331,7 +331,7 @@ stop_dashboard() {
 
     cd $DASHBOARD_PATH && docker-compose down
     if [[ $? == 0 ]]; then
-        echo -e "${green}哪吒面板 停止成功${plain}"
+        echo -e "${green}探针面板 停止成功${plain}"
     else
         echo -e "${red}停止失败，请稍后查看日志信息${plain}"
     fi
@@ -397,7 +397,7 @@ clean_all() {
 }
 
 show_usage() {
-    echo "哪吒面板 管理脚本使用方法: "
+    echo "探针面板 管理脚本使用方法: "
     echo "--------------------------------------------------------"
     echo "./nbdomain.sh                            - 显示管理菜单"
     echo "./nbdomain.sh install_dashboard          - 安装面板端"
