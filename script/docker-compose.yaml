@@ -2,10 +2,10 @@ version: "3.3"
 
 services:
   dashboard:
-    image: ghcr.io/naiba/nezha-dashboard
+    image: ghcr.io/nangle/dashboard
     restart: always
     volumes:
       - ./data:/dashboard/data
     ports:
-      - nz_site_port:80
-      - nz_rpc_port:5555
+      - site_port:80
+      - rpc_port:5555
