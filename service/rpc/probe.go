@@ -11,12 +11,12 @@ import (
 )
 
 // NezhaHandler ..
-type NezhaHandler struct {
+type ProbeHandler struct {
 	Auth *AuthHandler
 }
 
 // ReportState ..
-func (s *NezhaHandler) ReportState(c context.Context, r *pb.State) (*pb.Receipt, error) {
+func (s *ProbeHandler) ReportState(c context.Context, r *pb.State) (*pb.Receipt, error) {
 	var clientID string
 	var err error
 	if clientID, err = s.Auth.Check(c); err != nil {
@@ -31,7 +31,7 @@ func (s *NezhaHandler) ReportState(c context.Context, r *pb.State) (*pb.Receipt,
 }
 
 // Heartbeat ..
-func (s *NezhaHandler) Heartbeat(r *pb.Beat, stream pb.NezhaService_HeartbeatServer) error {
+func (s *ProbeHandler) Heartbeat(r *pb.Beat, stream pb.ProbeService_HeartbeatServer) error {
 	var clientID string
 	var err error
 	defer log.Printf("Heartbeat exit server:%v err:%v", clientID, err)
@@ -51,7 +51,7 @@ func (s *NezhaHandler) Heartbeat(r *pb.Beat, stream pb.NezhaService_HeartbeatSer
 }
 
 // Register ..
-func (s *NezhaHandler) Register(c context.Context, r *pb.Host) (*pb.Receipt, error) {
+func (s *ProbeHandler) Register(c context.Context, r *pb.Host) (*pb.Receipt, error) {
 	var clientID string
 	var err error
 	if clientID, err = s.Auth.Check(c); err != nil {
