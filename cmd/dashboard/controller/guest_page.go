@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/naiba/nezha/pkg/mygin"
-	"github.com/naiba/nezha/service/dao"
+	"github.com/XOS/Probe/pkg/mygin"
+	"github.com/XOS/Probe/service/dao"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
 )
