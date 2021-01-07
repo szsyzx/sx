@@ -223,8 +223,8 @@ modify_agent_config() {
 
     sed -i "s/rpc_host/${rpc_host}/" ${AGENT_SERVICE}
     sed -i "s/rpc_port/${rpc_port}/" ${AGENT_SERVICE}
-    sed -i "s/nezha_client_id/${probe_client_id}/" ${AGENT_SERVICE}
-    sed -i "s/nezha_client_secret/${probe_client_secret}/" ${AGENT_SERVICE}
+    sed -i "s/client_id/${probe_client_id}/" ${AGENT_SERVICE}
+    sed -i "s/client_secret/${probe_client_secret}/" ${AGENT_SERVICE}
 
     echo -e "Agent配置 ${green}修改成功，请稍等重启生效${plain}"
 
