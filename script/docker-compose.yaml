@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   dashboard:
-    image: ghcr.io/nangle/dashboard
+    image: ghcr.io/XOS/dashboard
     restart: always
     volumes:
       - ./data:/dashboard/data
