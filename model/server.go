@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"time"
 
-	pb "github.com/naiba/nezha/proto"
+	pb "github.com/XOS/Probe/proto"
 )
 
 // Server ..
