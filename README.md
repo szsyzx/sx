@@ -15,15 +15,15 @@
 - 海外：
 
     ```shell
-    curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh
-    sudo ./nezha.sh
+    curl -L https://raw.githubusercontent.com/XOS/Probe/master/script/install.sh -o probe.sh && chmod +x probe.sh
+    sudo ./probe.sh
     ```
 
 - 国内加速：
 
     ```shell
-    curl -L https://raw.sevencdn.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh
-    sudo ./nezha.sh
+    curl -L https://raw.sevencdn.com/XOS/Probe/master/script/install.sh -o probe.sh && chmod +x probe.sh
+    sudo ./probe.sh
     ```
 
 ## 使用说明
@@ -128,7 +128,7 @@ URL 里面也可放置占位符，请求时会进行简单的字符串替换。
 
 ### 数据备份恢复
 
-数据储存在 `/opt/nezha` 文件夹中，迁移数据时打包这个文件夹，到新环境解压。然后执行一键脚本安装即可
+数据储存在 `/etc/probe` 文件夹中，迁移数据时打包这个文件夹，到新环境解压。然后执行一键脚本安装即可
 
 ### 启用 HTTPS
 
