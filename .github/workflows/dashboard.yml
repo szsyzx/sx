@@ -2,8 +2,9 @@ name: Dashboard image
 
 on:
   push:
-    branches:
-      - "master"
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
     paths-ignore:
       - "script/**"
       - ".gitignore"
