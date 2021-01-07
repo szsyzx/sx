@@ -1,4 +1,4 @@
-module github.com/naiba/nezha
+module github.com/XOS/Probe
 
 go 1.13
 
