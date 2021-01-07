@@ -6,8 +6,8 @@ import (
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 
-	"github.com/naiba/nezha/model"
-	pb "github.com/naiba/nezha/proto"
+	"github.com/XOS/Probe/model"
+	pb "github.com/XOS/Probe/proto"
 )
 
 const (
