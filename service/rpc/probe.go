@@ -10,7 +10,7 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-// NezhaHandler ..
+// ProbeHandler ..
 type ProbeHandler struct {
 	Auth *AuthHandler
 }

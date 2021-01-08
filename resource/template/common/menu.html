@@ -20,13 +20,13 @@
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <button class="item" onclick="showConfirm('确认注销？','注销后您必须重新登录才能使用',logout,{{.Admin.ID}})">
-                            <i class="logout icon"></i>注销登录
+                        <button class="item" onclick="showConfirm('确认注销？','注销后您必须重新登入才能使用',logout,{{.Admin.ID}})">
+                            <i class="logout icon"></i>注销
                         </button>
                     </div>
                 </div>
                 {{else}}
-                <a href="/login" class="ui large teal button">登录</a>
+                <a href="/login" class="ui large teal button">登入</a>
                 {{end}}
             </div>
         </div>
