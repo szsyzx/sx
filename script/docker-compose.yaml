@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   dashboard:
-    image: ghcr.io/xos/dashboard
+    image: nangle/dashboard
     restart: always
     volumes:
       - ./data:/dashboard/data
