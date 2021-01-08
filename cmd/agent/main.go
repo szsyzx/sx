@@ -54,7 +54,7 @@ func doSelfUpdate() {
 	}()
 	v := semver.MustParse(version)
 	log.Println("check update", v)
-	latest, err := selfupdate.UpdateSelf(v, "naiba/nezha")
+	latest, err := selfupdate.UpdateSelf(v, "xos/probe")
 	if err != nil {
 		log.Println("Binary update failed:", err)
 		return
