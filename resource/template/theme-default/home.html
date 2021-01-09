@@ -160,6 +160,7 @@
     })
     const wsProtocol = window.location.protocol == "https:" ? "wss" : "ws"
     const ws = new WebSocket(wsProtocol + '://' + window.location.host + '/ws');
+    /**
     ws.onopen = function (evt) {
         $.suiAlert({
             title: '实时通道建立',
@@ -169,6 +170,7 @@
             position: 'top-center',
         });
     }
+    **/
     ws.onmessage = function (evt) {
         const oldServers = statusCards.servers
         statusCards.servers = JSON.parse(evt.data)
@@ -196,6 +198,7 @@
             }
         }
     }
+    /**
     ws.onclose = function () {
         $.suiAlert({
             title: '实时通道断开',
@@ -205,5 +208,6 @@
             position: 'top-center',
         });
     }
+    **/
 </script>
 {{end}}
