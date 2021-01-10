@@ -10,14 +10,14 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-// ProbeHandler ..
+// NezhaHandler ..
 type ProbeHandler struct {
 	Auth *AuthHandler
 }
 
 // ReportState ..
 func (s *ProbeHandler) ReportState(c context.Context, r *pb.State) (*pb.Receipt, error) {
-	var clientID string
+	var clientID uint64
 	var err error
 	if clientID, err = s.Auth.Check(c); err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func (s *ProbeHandler) ReportState(c context.Context, r *pb.State) (*pb.Receipt,
 
 // Heartbeat ..
 func (s *ProbeHandler) Heartbeat(r *pb.Beat, stream pb.ProbeService_HeartbeatServer) error {
-	var clientID string
+	var clientID uint64
 	var err error
 	defer log.Printf("Heartbeat exit server:%v err:%v", clientID, err)
 	if clientID, err = s.Auth.Check(stream.Context()); err != nil {
@@ -52,7 +52,7 @@ func (s *ProbeHandler) Heartbeat(r *pb.Beat, stream pb.ProbeService_HeartbeatSer
 
 // Register ..
 func (s *ProbeHandler) Register(c context.Context, r *pb.Host) (*pb.Receipt, error) {
-	var clientID string
+	var clientID uint64
 	var err error
 	if clientID, err = s.Auth.Check(c); err != nil {
 		return nil, err
