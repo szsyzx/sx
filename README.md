@@ -4,7 +4,7 @@
 
 |  首页截图1   |   首页截图2   |
 | ---- | ---- |
-|   <img src="https://s3.ax1x.com/2020/12/08/DzHv6A.jpg" width="2333px" />   |  <img src="https://s3.ax1x.com/2020/12/09/rPF4xJ.png" width="1600px" /> |
+|   <img src="https://s3.ax1x.com/2020/12/07/DvTCwD.jpg" width="2333px" />   |  <img src="https://s3.ax1x.com/2020/12/09/rPF4xJ.png" width="1600px" /> |
 
 \>> [查看针友列表](https://www.google.com/search?q=%22powered+by+%E5%93%AA%E5%90%92%E9%9D%A2%E6%9D%BF%22&filter=0) (Google)
 
