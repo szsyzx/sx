@@ -38,7 +38,7 @@ func GetHost() *model.Host {
 	ms, _ := mem.SwapMemory()
 	u, _ := disk.Usage("/")
 	var ip ipDotSbGeoIP
-	resp, err := http.Get("https://api.ip.sb/geoip")
+	resp, err := http.Get("https://api-ipv4.ip.sb/geoip")
 	if err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
