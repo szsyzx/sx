@@ -15,7 +15,7 @@
     position: fixed;
     bottom: 0;
     padding-top: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 15px;
 }
 
 .ui.inverted.segment, .ui.primary.inverted.segment {
