@@ -14,8 +14,13 @@
     width: 100%;
     position: fixed;
     bottom: 0;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.ui.inverted.segment, .ui.primary.inverted.segment {
+    /* background: #607d8b; */
+    color: rgba(255,255,255,.9);
 }
 
 .login-form {
