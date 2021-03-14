@@ -45,19 +45,7 @@ func Start() {
 	alertsLock.Unlock()
 
 	time.Sleep(time.Second * 10)
-	var lastPrint time.Time
-	var checkCount uint64
-	for {
-		startedAt := time.Now()
-		checkStatus()
-		checkCount++
-		if lastPrint.Before(startedAt.Add(-1 * time.Hour)) {
-			log.Println("报警规则检测每小时", checkCount, "次", startedAt, time.Now())
-			checkCount = 0
-			lastPrint = startedAt
-		}
-		time.Sleep(time.Until(startedAt.Add(time.Second * dao.SnapshotDelay)))
-	}
+	go checkStatus()
 }
 
 func OnRefreshOrAddAlert(alert model.AlertRule) {
@@ -84,7 +72,6 @@ func OnDeleteAlert(id uint64) {
 	for i := 0; i < len(alerts); i++ {
 		if alerts[i].ID == id {
 			alerts = append(alerts[:i], alerts[i+1:]...)
-			i--
 		}
 	}
 }
@@ -110,28 +97,29 @@ func OnDeleteNotification(id uint64) {
 	for i := 0; i < len(notifications); i++ {
 		if notifications[i].ID == id {
 			notifications = append(notifications[:i], notifications[i+1:]...)
-			i--
 		}
 	}
 }
 
 func checkStatus() {
+	startedAt := time.Now()
+	defer func() {
+		time.Sleep(time.Until(startedAt.Add(time.Second * dao.SnapshotDelay)))
+		checkStatus()
+	}()
+
 	alertsLock.RLock()
 	defer alertsLock.RUnlock()
 	dao.ServerLock.RLock()
 	defer dao.ServerLock.RUnlock()
 
-	for _, alert := range alerts {
-		// 跳过未启用
-		if alert.Enable == nil || !*alert.Enable {
-			continue
-		}
+	for j := 0; j < len(alerts); j++ {
 		for _, server := range dao.ServerList {
 			// 监测点
-			alertsStore[alert.ID][server.ID] = append(alertsStore[alert.
-				ID][server.ID], alert.Snapshot(server))
+			alertsStore[alerts[j].ID][server.ID] = append(alertsStore[alerts[j].
+				ID][server.ID], alerts[j].Snapshot(server))
 			// 发送通知
-			max, desc := alert.Check(alertsStore[alert.ID][server.ID])
+			max, desc := alerts[j].Check(alertsStore[alerts[j].ID][server.ID])
 			if desc != "" {
 				nID := getNotificationHash(server, desc)
 				var flag bool
@@ -145,8 +133,7 @@ func checkStatus() {
 							nHistory.Duration = time.Hour * 24
 						}
 						nHistory.Until = time.Now().Add(nHistory.Duration)
-						// 缓存有效期加 10 分钟
-						dao.Cache.Set(nID, nHistory, nHistory.Duration+time.Minute*10)
+						dao.Cache.Set(nID, nHistory, nHistory.Duration)
 					}
 				} else {
 					// 新提醒直接通知
@@ -154,16 +141,17 @@ func checkStatus() {
 					dao.Cache.Set(nID, NotificationHistory{
 						Duration: firstNotificationDelay,
 						Until:    time.Now().Add(firstNotificationDelay),
-					}, firstNotificationDelay+time.Minute*10)
+					}, firstNotificationDelay)
 				}
 				if flag {
-					message := fmt.Sprintf("报警规则：%s，服务器：%s(%s)，%s，逮到咯，快去看看！", alert.Name, server.Name, server.Host.IP, desc)
+					message := fmt.Sprintf("逮到咯，快去看看！服务器：%s(%s)，报警规则：%s，%s", server.Name, server.Host.IP, alerts[j].Name, desc)
+					log.Printf("通知：%s\n", message)
 					go sendNotification(message)
 				}
 			}
 			// 清理旧数据
-			if max > 0 && max < len(alertsStore[alert.ID][server.ID]) {
-				alertsStore[alert.ID][server.ID] = alertsStore[alert.ID][server.ID][len(alertsStore[alert.ID][server.ID])-max:]
+			if max > 0 && max < len(alertsStore[alerts[j].ID][server.ID]) {
+				alertsStore[alerts[j].ID][server.ID] = alertsStore[alerts[j].ID][server.ID][len(alertsStore[alerts[j].ID][server.ID])-max:]
 			}
 		}
 	}
