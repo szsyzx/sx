@@ -14,8 +14,8 @@ After=network.target
 Type=simple
 User=root
 Group=root
-WorkingDirectory=/etc/probe/agent/
-ExecStart=/etc/probe/agent/probe-agent -d -s rpc_host:rpc_port -i client_id -p client_secret
+WorkingDirectory=/opt/probe/agent/
+ExecStart=/opt/probe/agent/probe-agent -d -s rpc_host:rpc_port -i client_id -p client_secret
 Restart=always
 #Environment=DEBUG=true
 

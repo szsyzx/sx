@@ -6,7 +6,7 @@
 #   Github: https://github.com/XOS/Probe
 #======================================================
 
-BASE_PATH="/etc/probe"
+BASE_PATH="/opt/probe"
 DASHBOARD_PATH="${BASE_PATH}/dashboard"
 AGENT_PATH="${BASE_PATH}/agent"
 AGENT_SERVICE="/etc/systemd/system/probe-agent.service"
