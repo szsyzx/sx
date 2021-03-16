@@ -69,7 +69,7 @@ func TestNotification(t *testing.T) {
 			reqMethod:  NotificationRequestMethodPOST,
 			reqType:    NotificationRequestTypeForm,
 			expectURL:  "https://example.com/?m=" + msg,
-			expectBody: "%23NEZHA%23=" + msg,
+			expectBody: "%23NG%23=" + msg,
 			expectType: reqTypeForm,
 		},
 		{
