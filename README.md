@@ -7,7 +7,7 @@
 
 | 默认主题                                                | DayNight [@JackieSung](https://github.com/JackieSung4ev) | hotaru                        |
 | ------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------- |
-| ![首页截图1](https://img.gejiba.com/images/7f0666204ca27b2897cdfb2e54b1fe3d.png) | <img src="https://s3.ax1x.com/2021/01/20/sfJv2q.jpg"/>   | <img src="https://s3.ax1x.com/2020/12/09/rPF4xJ.png" width="1600px" /> |
+| ![首页截图1](https://github.com/XOS/Probe/raw/master/resource/%E6%88%AA%E5%B1%8F2021-03-17%2005.31.59.png) | <img src="https://s3.ax1x.com/2021/01/20/sfJv2q.jpg"/>   | <img src="https://s3.ax1x.com/2020/12/09/rPF4xJ.png" width="1600px" /> |
 
 ## 安装脚本
 
