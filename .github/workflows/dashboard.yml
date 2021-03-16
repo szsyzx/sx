@@ -2,16 +2,14 @@ name: Dashboard image
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: 
+      - "master"
     paths-ignore:
-      - "script/**"
-      - ".gitignore"
-      - "*.md"
+      - "cmd/playground/**"
       - "cmd/agent/**"
-      - ".github/workflows/agent.yml"
-      - ".goreleaser.yml"
+      - "script/**"
+      - "*.md"
+      - ".*"
 
 jobs:
   deploy:
