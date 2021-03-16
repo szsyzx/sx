@@ -15,7 +15,7 @@ Type=simple
 User=root
 Group=root
 WorkingDirectory=/opt/probe/agent/
-ExecStart=/opt/probe/agent/Probe-agent -d -s grpc_host:grpc_port -p client_secret
+ExecStart=/opt/probe/agent/probe-agent -d -s grpc_host:grpc_port -p client_secret
 Restart=always
 #Environment=DEBUG=true
 
