@@ -28,6 +28,8 @@ import (
 	"github.com/XOS/Probe/service/rpc"
 )
 
+const defaultUserAgent = "NGBot"
+
 var (
 	server       string
 	clientSecret string
@@ -52,7 +54,7 @@ var (
 
 func doSelfUpdate() {
 	defer func() {
-		time.Sleep(time.Minute * 20)
+		time.Sleep(time.Minute * 30)
 		updateCh <- struct{}{}
 	}()
 	v := semver.MustParse(version)
@@ -277,7 +279,7 @@ func reportState() {
 				log.Printf("reportState error %v", err)
 				time.Sleep(delayWhenError)
 			}
-			if lastReportHostInfo.Before(time.Now().Add(-10 * time.Minute)) {
+			if lastReportHostInfo.Before(time.Now().Add(-5 * time.Minute)) {
 				lastReportHostInfo = time.Now()
 				client.ReportSystemInfo(ctx, monitor.GetHost().PB())
 			}
