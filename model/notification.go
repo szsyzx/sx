@@ -18,8 +18,6 @@ const (
 	NotificationRequestTypeForm
 )
 
-const defaultUserAgent = "NGBot"
-
 const (
 	_ = iota
 	NotificationRequestMethodGET
@@ -86,7 +84,7 @@ func (n *Notification) Send(message string) error {
 	transCfg := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: verifySSL},
 	}
-	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 10}
+	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 3}
 
 	reqBody, err := n.reqBody(message)
 

@@ -10,12 +10,14 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/go-ping/ping"
 	"github.com/XOS/Probe/pkg/utils"
+	"github.com/go-ping/ping"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/host"
 )
+
+const defaultUserAgent = "NGBot"
 
 func main() {
 	// icmp()

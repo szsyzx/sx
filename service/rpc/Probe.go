@@ -11,6 +11,8 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
+const defaultUserAgent = "NGBot"
+
 type ProbeHandler struct {
 	Auth *AuthHandler
 }

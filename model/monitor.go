@@ -4,6 +4,8 @@ import (
 	pb "github.com/XOS/Probe/proto"
 )
 
+const defaultUserAgent = "NGBot"
+
 const (
 	_ = iota
 	TaskTypeHTTPGET

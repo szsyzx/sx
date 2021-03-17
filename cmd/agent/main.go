@@ -38,7 +38,7 @@ var (
 	reporting      bool
 	client         pb.ProbeServiceClient
 	ctx            = context.Background()
-	delayWhenError = time.Second * 10       // Agent 重连间隔
+	delayWhenError = time.Second * 5        // Agent 重连间隔
 	updateCh       = make(chan struct{}, 0) // Agent 自动更新间隔
 	httpClient     = &http.Client{
 		Transport: &http.Transport{
