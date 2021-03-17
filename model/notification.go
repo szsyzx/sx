@@ -84,7 +84,7 @@ func (n *Notification) Send(message string) error {
 	transCfg := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: verifySSL},
 	}
-	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 3}
+	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 5}
 
 	reqBody, err := n.reqBody(message)
 

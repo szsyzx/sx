@@ -35,24 +35,24 @@ func (s *ProbeHandler) ReportTask(c context.Context, r *pb.TaskResult) (*pb.Rece
 			var last model.MonitorHistory
 			var newCert = strings.Split(r.GetData(), "|")
 			if len(newCert) > 1 {
-				expiresNew, _ := time.Parse("2006-01-02 15:04:05 -0700 MST", newCert[1])
+				expiresNew, _ := time.Parse("2006年01月02日 15:04:05 -0700 MST", newCert[1])
 				// 证书过期提醒
 				if expiresNew.Before(time.Now().AddDate(0, 0, 7)) {
 					errMsg = fmt.Sprintf(
 						"SSL证书将在七天内过期，过期时间：%s。",
-						expiresNew.Format("2006-01-02 15:04:05"))
+						expiresNew.Format("2006年01月02日 15:04:05"))
 				}
 				// 证书变更提醒
 				if err := dao.DB.Where("monitor_id = ? AND data LIKE ?", r.GetId(), "%|%").Order("id DESC").First(&last).Error; err == nil {
 					var oldCert = strings.Split(last.Data, "|")
 					var expiresOld time.Time
 					if len(oldCert) > 1 {
-						expiresOld, _ = time.Parse("2006-01-02 15:04:05 -0700 MST", oldCert[1])
+						expiresOld, _ = time.Parse("2006年01月02日 15:04:05 -0700 MST", oldCert[1])
 					}
 					if last.Data != "" && oldCert[0] != newCert[0] && !expiresNew.Equal(expiresOld) {
 						errMsg = fmt.Sprintf(
 							"SSL证书变更，旧：%s, %s 过期；新：%s, %s 过期。",
-							oldCert[0], expiresOld.Format("2006-01-02 15:04:05"), newCert[0], expiresNew.Format("2006-01-02 15:04:05"))
+							oldCert[0], expiresOld.Format("2006年01月02日 15:04:05"), newCert[0], expiresNew.Format("2006年01月02日 15:04:05"))
 					}
 				}
 			}

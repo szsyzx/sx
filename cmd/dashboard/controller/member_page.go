@@ -3,10 +3,10 @@ package controller
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/XOS/Probe/model"
 	"github.com/XOS/Probe/pkg/mygin"
 	"github.com/XOS/Probe/service/dao"
+	"github.com/gin-gonic/gin"
 )
 
 type memberPage struct {
@@ -42,7 +42,7 @@ func (mp *memberPage) monitor(c *gin.Context) {
 	var monitors []model.Monitor
 	dao.DB.Find(&monitors)
 	c.HTML(http.StatusOK, "dashboard/monitor", mygin.CommonEnvironment(c, gin.H{
-		"Title":    "服务监控",
+		"Title":    "服务监测",
 		"Monitors": monitors,
 	}))
 }

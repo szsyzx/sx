@@ -13,6 +13,8 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
+const defaultUserAgent = "NGBot"
+
 func ServeWeb(port uint) {
 	gin.SetMode(gin.ReleaseMode)
 	if dao.Conf.Debug {

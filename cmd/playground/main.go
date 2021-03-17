@@ -73,6 +73,7 @@ func httpWithSSLInfo() {
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	httpClient := &http.Client{Transport: transCfg, CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		req.Header.Set("User-Agent", "NGsBot")
 		return http.ErrUseLastResponse
 	}}
 	resp, err := httpClient.Get("http://mail.nai.ba")
