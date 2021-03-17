@@ -94,11 +94,11 @@ func (x *Host) GetPlatformVersion() string {
 	return ""
 }
 
-func (x *Host) GetCpu() []string {
+func (x *Host) GetCpu() string {
 	if x != nil {
 		return x.Cpu
 	}
-	return nil
+	return ""
 }
 
 func (x *Host) GetMemTotal() uint64 {
