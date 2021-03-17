@@ -64,7 +64,7 @@ a {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    cursor: pointer;
+    
     background-color: #fafafaa3;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -334,12 +334,12 @@ color: #ff5722;
   margin-right: .5em;
   margin-bottom: .5em;
   border: 1px solid transparent;
-  display: inline-block;
+  
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: pointer;
+  
   background-color: #fafafa80;
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
