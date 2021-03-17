@@ -45,7 +45,7 @@ func init() {
 	if dao.Conf.GRPCPort == 0 {
 		dao.Conf.GRPCPort = 5555
 	}
-	dao.Cache = cache.New(3*time.Minute, 5*time.Minute)
+	dao.Cache = cache.New(5*time.Minute, 10*time.Minute)
 
 	initSystem()
 }
