@@ -53,7 +53,7 @@ func PB2State(s *pb.State) HostState {
 type Host struct {
 	Platform        string
 	PlatformVersion string
-	CPU             []string
+	CPU             string
 	MemTotal        uint64
 	DiskTotal       uint64
 	SwapTotal       uint64
