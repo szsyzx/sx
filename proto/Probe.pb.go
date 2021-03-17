@@ -34,18 +34,18 @@ type Host struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Platform        string `protobuf:"bytes,1,opt,name=platform,proto3" json:"platform,omitempty"`
-	PlatformVersion string `protobuf:"bytes,2,opt,name=platform_version,json=platformVersion,proto3" json:"platform_version,omitempty"`
-	Cpu             string `protobuf:"bytes,3,rep,name=cpu,proto3" json:"cpu,omitempty"`
-	MemTotal        uint64 `protobuf:"varint,4,opt,name=mem_total,json=memTotal,proto3" json:"mem_total,omitempty"`
-	DiskTotal       uint64 `protobuf:"varint,5,opt,name=disk_total,json=diskTotal,proto3" json:"disk_total,omitempty"`
-	SwapTotal       uint64 `protobuf:"varint,6,opt,name=swap_total,json=swapTotal,proto3" json:"swap_total,omitempty"`
-	Arch            string `protobuf:"bytes,7,opt,name=arch,proto3" json:"arch,omitempty"`
-	Virtualization  string `protobuf:"bytes,8,opt,name=virtualization,proto3" json:"virtualization,omitempty"`
-	BootTime        uint64 `protobuf:"varint,9,opt,name=boot_time,json=bootTime,proto3" json:"boot_time,omitempty"`
-	Ip              string `protobuf:"bytes,10,opt,name=ip,proto3" json:"ip,omitempty"`
-	CountryCode     string `protobuf:"bytes,11,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
-	Version         string `protobuf:"bytes,12,opt,name=version,proto3" json:"version,omitempty"`
+	Platform        string   `protobuf:"bytes,1,opt,name=platform,proto3" json:"platform,omitempty"`
+	PlatformVersion string   `protobuf:"bytes,2,opt,name=platform_version,json=platformVersion,proto3" json:"platform_version,omitempty"`
+	Cpu             []string `protobuf:"bytes,3,rep,name=cpu,proto3" json:"cpu,omitempty"`
+	MemTotal        uint64   `protobuf:"varint,4,opt,name=mem_total,json=memTotal,proto3" json:"mem_total,omitempty"`
+	DiskTotal       uint64   `protobuf:"varint,5,opt,name=disk_total,json=diskTotal,proto3" json:"disk_total,omitempty"`
+	SwapTotal       uint64   `protobuf:"varint,6,opt,name=swap_total,json=swapTotal,proto3" json:"swap_total,omitempty"`
+	Arch            string   `protobuf:"bytes,7,opt,name=arch,proto3" json:"arch,omitempty"`
+	Virtualization  string   `protobuf:"bytes,8,opt,name=virtualization,proto3" json:"virtualization,omitempty"`
+	BootTime        uint64   `protobuf:"varint,9,opt,name=boot_time,json=bootTime,proto3" json:"boot_time,omitempty"`
+	Ip              string   `protobuf:"bytes,10,opt,name=ip,proto3" json:"ip,omitempty"`
+	CountryCode     string   `protobuf:"bytes,11,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
+	Version         string   `protobuf:"bytes,12,opt,name=version,proto3" json:"version,omitempty"`
 }
 
 func (x *Host) Reset() {
@@ -94,11 +94,11 @@ func (x *Host) GetPlatformVersion() string {
 	return ""
 }
 
-func (x *Host) GetCpu() string {
+func (x *Host) GetCpu() []string {
 	if x != nil {
 		return x.Cpu
 	}
-	return ""
+	return nil
 }
 
 func (x *Host) GetMemTotal() uint64 {
