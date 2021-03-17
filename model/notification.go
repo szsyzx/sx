@@ -18,6 +18,8 @@ const (
 	NotificationRequestTypeForm
 )
 
+const defaultUserAgent = "NGBot"
+
 const (
 	_ = iota
 	NotificationRequestMethodGET
