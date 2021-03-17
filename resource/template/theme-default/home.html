@@ -127,7 +127,9 @@
         methods: {
             group() {
                 this.groups = groupingData(this.data, "Tag")
-                console.log(this.groups)
+                /**
+                 * console.log(this.groups)
+                 **/
             },
             formatPercent(live, used, total) {
                 const percent = live ? (parseInt(used / total * 100) || 0) : -1
