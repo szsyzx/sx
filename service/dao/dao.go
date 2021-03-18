@@ -20,7 +20,6 @@ const (
 	ReportDelay   = 2
 )
 
-const defaultUserAgent = "NGBot"
 
 var (
 	Conf  *model.Config

@@ -16,7 +16,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-const defaultUserAgent = "NGBot"
 
 func init() {
 	shanghai, err := time.LoadLocation("Asia/Shanghai")

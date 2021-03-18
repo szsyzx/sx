@@ -17,12 +17,10 @@ import (
 	"github.com/shirou/gopsutil/v3/host"
 )
 
-const defaultUserAgent = "NGBot"
-
 func main() {
 	// icmp()
 	// tcpping()
-	// httpWithSSLInfo()
+	httpWithSSLInfo()
 	sysinfo()
 	// cmdExec()
 }
@@ -74,6 +72,7 @@ func httpWithSSLInfo() {
 	}
 	httpClient := &http.Client{Transport: transCfg, CheckRedirect: func(req *http.Request, via []*http.Request) error {
 		req.Header.Set("User-Agent", "NGsBot")
+		req.Header.Add("User-Agent", "NGBot")
 		return http.ErrUseLastResponse
 	}}
 	resp, err := httpClient.Get("http://mail.nai.ba")

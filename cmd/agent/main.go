@@ -28,8 +28,6 @@ import (
 	"github.com/XOS/Probe/service/rpc"
 )
 
-const defaultUserAgent = "NGBot"
-
 var (
 	server       string
 	clientSecret string
@@ -178,6 +176,8 @@ func doTask(task *pb.Task) {
 	case model.TaskTypeHTTPGET:
 		start := time.Now()
 		resp, err := httpClient.Get(task.GetData())
+		resp.Header.Set("User-Agent", "NGsBot")
+		resp.Header.Add("User-Agent", "NGBot")
 		if err == nil {
 			result.Delay = float32(time.Now().Sub(start).Microseconds()) / 1000.0
 			if resp.StatusCode > 399 || resp.StatusCode < 200 {

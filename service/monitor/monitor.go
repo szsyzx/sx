@@ -19,7 +19,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-const defaultUserAgent = "NGBot"
 
 type ipDotSbGeoIP struct {
 	CountryCode string `json:"country_code,omitempty"`
