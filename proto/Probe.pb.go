@@ -25,7 +25,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-const defaultUserAgent = "NGBot"
+const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
 
 // This is a compile-time assertion that a sufficiently up-to-date version
 // of the legacy proto package is being used.
@@ -453,8 +453,6 @@ func (x *Receipt) ProtoReflect() protoreflect.Message {
 	}
 	return mi.MessageOf(x)
 }
-
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
 
 // Deprecated: Use Receipt.ProtoReflect.Descriptor instead.
 func (*Receipt) Descriptor() ([]byte, []int) {
