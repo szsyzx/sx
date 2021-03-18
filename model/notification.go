@@ -87,6 +87,8 @@ func (n *Notification) Send(message string) error {
 	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 5}
 
 	reqBody, err := n.reqBody(message)
+	var req *http.Request
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)")
 	var resp *http.Response
 
 	if err == nil {

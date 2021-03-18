@@ -47,7 +47,7 @@ var (
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			req.Header.Set("User-Agent", "NGBot")
+			req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)")
 			return http.ErrUseLastResponse
 		},
 	}

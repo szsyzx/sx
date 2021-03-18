@@ -71,13 +71,11 @@ func httpWithSSLInfo() {
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	httpClient := &http.Client{Transport: transCfg, CheckRedirect: func(req *http.Request, via []*http.Request) error {
-		req.Header.Set("User-Agent", "NGsBot")
-		req.Header.Add("User-Agent", "NGBot")
+		req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)")
 		return http.ErrUseLastResponse
 	}}
 	resp, err := httpClient.Get("http://mail.nai.ba")
-	resp.Header.Set("User-Agent", "NGsBot")
-	resp.Header.Add("User-Agent", "NGBot")
+	resp.Header.Set("User-Agent", "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)")
 	fmt.Println(err, resp.StatusCode)
 	// SSL 证书信息获取
 	// c := cert.NewCert("expired-ecc-dv.ssl.com")

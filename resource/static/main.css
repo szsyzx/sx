@@ -9,15 +9,6 @@ a {
   text-decoration: none;
 }
 
-.ui.inverted.segment, .ui.primary.inverted.segment {
-  width: 100%;
-  color: #8b6cc1f7;
-  background-color: rgba(255, 255, 255, 0.75);
-  z-index: 9999;
-  position: fixed;
-  bottom: 0;
-}
-
 a {
   color: #4caf50;
   text-decoration: none;
@@ -103,6 +94,11 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url(static/bg/04.JPG);
+  }
+
+  /**后台文本信息可选可复制**/
+  .ui.basic.table{
+    user-select: text;
   }
 
 .column {
