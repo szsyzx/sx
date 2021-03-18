@@ -11,6 +11,8 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
+const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
+
 type ProbeHandler struct {
 	Auth *AuthHandler
 }

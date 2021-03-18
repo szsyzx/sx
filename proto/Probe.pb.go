@@ -454,6 +454,8 @@ func (x *Receipt) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
+const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
+
 // Deprecated: Use Receipt.ProtoReflect.Descriptor instead.
 func (*Receipt) Descriptor() ([]byte, []int) {
 	return file_proto_probe_proto_rawDescGZIP(), []int{4}

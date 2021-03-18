@@ -34,7 +34,7 @@ var (
 	version      string
 )
 
-const defaultUserAgent = "NGBot"
+const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
 
 var (
 	reporting      bool

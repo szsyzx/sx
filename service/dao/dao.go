@@ -20,6 +20,7 @@ const (
 	ReportDelay   = 2
 )
 
+const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
 
 var (
 	Conf  *model.Config
