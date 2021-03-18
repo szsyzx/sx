@@ -93,7 +93,7 @@ a {
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url(./static/bg/04.JPG);
+  background-image: url(/bg/04.JPG);
   }
 
   /**后台文本信息可选可复制**/
