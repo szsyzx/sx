@@ -143,7 +143,6 @@ font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   width: 100%;
   color: #8b6cc1f7;
   background-color: rgba(255, 255, 255, 55%);
-  z-index: 9999;
   position: fixed;
   bottom: 0;
 }
