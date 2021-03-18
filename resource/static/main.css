@@ -90,6 +90,21 @@ a {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+/**背景图片**/
+#bg {
+  content: " ";
+  background: fixed;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(static/bg/04.JPG);
+  }
+
 .column {
 margin-top: 2px;
 }

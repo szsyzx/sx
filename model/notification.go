@@ -87,14 +87,11 @@ func (n *Notification) Send(message string) error {
 	client := &http.Client{Transport: transCfg, Timeout: time.Minute * 5}
 
 	reqBody, err := n.reqBody(message)
-
 	var resp *http.Response
 
 	if err == nil {
 		if n.RequestMethod == NotificationRequestMethodGET {
 			resp, err = client.Get(n.reqURL(message))
-			resp.Header.Set("User-Agent", "NGBot")
-			resp.Header.Add("User-Agent", "NGBot")
 		} else {
 			resp, err = client.Post(n.reqURL(message), n.reqContentType(), strings.NewReader(reqBody))
 		}

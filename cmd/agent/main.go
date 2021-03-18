@@ -34,6 +34,8 @@ var (
 	version      string
 )
 
+const defaultUserAgent = "NGBot"
+
 var (
 	reporting      bool
 	client         pb.ProbeServiceClient
@@ -45,8 +47,7 @@ var (
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			req.Header.Set("User-Agent", "NGsBot")
-			req.Header.Add("User-Agent", "NGBot")
+			req.Header.Set("User-Agent", "NGBot")
 			return http.ErrUseLastResponse
 		},
 	}
