@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	ConfigTypeGitHub = "github"
-	ConfigTypeGitee  = "gitee"
+	ConfigTypeGitHub = "Github"
+	ConfigTypeGitee  = "Gitee"
 )
 
 type Config struct {

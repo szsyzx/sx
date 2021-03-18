@@ -93,6 +93,8 @@ func (n *Notification) Send(message string) error {
 	if err == nil {
 		if n.RequestMethod == NotificationRequestMethodGET {
 			resp, err = client.Get(n.reqURL(message))
+			resp.Header.Set("User-Agent", "NGBot")
+			resp.Header.Add("User-Agent", "NGBot")
 		} else {
 			resp, err = client.Post(n.reqURL(message), n.reqContentType(), strings.NewReader(reqBody))
 		}

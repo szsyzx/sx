@@ -20,7 +20,7 @@ import (
 func main() {
 	// icmp()
 	// tcpping()
-	httpWithSSLInfo()
+	//httpWithSSLInfo()
 	sysinfo()
 	// cmdExec()
 }
@@ -76,6 +76,8 @@ func httpWithSSLInfo() {
 		return http.ErrUseLastResponse
 	}}
 	resp, err := httpClient.Get("http://mail.nai.ba")
+	resp.Header.Set("User-Agent", "NGsBot")
+	resp.Header.Add("User-Agent", "NGBot")
 	fmt.Println(err, resp.StatusCode)
 	// SSL 证书信息获取
 	// c := cert.NewCert("expired-ecc-dv.ssl.com")

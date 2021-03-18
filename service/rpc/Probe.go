@@ -11,7 +11,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-
 type ProbeHandler struct {
 	Auth *AuthHandler
 }
@@ -59,7 +58,7 @@ func (s *ProbeHandler) ReportTask(c context.Context, r *pb.TaskResult) (*pb.Rece
 		if errMsg != "" {
 			var monitor model.Monitor
 			dao.DB.First(&monitor, "id = ?", r.GetId())
-			dao.SendNotification(fmt.Sprintf("服务监控：%s %s", monitor.Name, errMsg), true)
+			dao.SendNotification(fmt.Sprintf("服务监测：%s %s", monitor.Name, errMsg), true)
 		}
 	}
 	if r.GetType() == model.TaskTypeCommand {
@@ -135,7 +134,7 @@ func (s *ProbeHandler) ReportSystemInfo(c context.Context, r *pb.Host) (*pb.Rece
 		host.IP != "" &&
 		dao.ServerList[clientID].Host.IP != host.IP {
 		dao.SendNotification(fmt.Sprintf(
-			"IP变更提醒 服务器：%s ，旧IP：%s，新IP：%s。",
+			"IP变动提醒 服务器：%s ，旧IP：%s，新IP：%s。",
 			dao.ServerList[clientID].Name, dao.ServerList[clientID].Host.IP, host.IP), true)
 	}
 	dao.ServerList[clientID].Host = &host

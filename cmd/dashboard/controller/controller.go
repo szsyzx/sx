@@ -13,7 +13,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-
 func ServeWeb(port uint) {
 	gin.SetMode(gin.ReleaseMode)
 	if dao.Conf.Debug {
@@ -23,7 +22,7 @@ func ServeWeb(port uint) {
 	r.Use(mygin.RecordPath)
 	r.SetFuncMap(template.FuncMap{
 		"tf": func(t time.Time) string {
-			return t.Format("2006年1月2日 15:04:05")
+			return t.Format("2006年01月02日 15:04:05")
 		},
 		"safe": func(s string) template.HTML {
 			return template.HTML(s)
@@ -32,7 +31,7 @@ func ServeWeb(port uint) {
 			return template.HTML(`<` + s + `>`)
 		},
 		"stf": func(s uint64) string {
-			return time.Unix(int64(s), 0).Format("2006年1月2日 15:04")
+			return time.Unix(int64(s), 0).Format("2006年01月02日 15:04")
 		},
 		"sf": func(duration uint64) string {
 			return time.Duration(time.Duration(duration) * time.Second).String()
@@ -81,7 +80,7 @@ func ServeWeb(port uint) {
 		"dayBefore": func(i int) string {
 			year, month, day := time.Now().Date()
 			today := time.Date(year, month, day, 0, 0, 0, 0, time.Local)
-			return today.AddDate(0, 0, i-29).Format("1月2日")
+			return today.AddDate(0, 0, i-29).Format("01月02日")
 		},
 		"className": func(percent float32) string {
 			if percent == 0 {

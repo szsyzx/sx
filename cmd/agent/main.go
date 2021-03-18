@@ -45,6 +45,8 @@ var (
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			req.Header.Set("User-Agent", "NGsBot")
+			req.Header.Add("User-Agent", "NGBot")
 			return http.ErrUseLastResponse
 		},
 	}
@@ -52,7 +54,7 @@ var (
 
 func doSelfUpdate() {
 	defer func() {
-		time.Sleep(time.Minute * 30)
+		time.Sleep(time.Minute * 5)
 		updateCh <- struct{}{}
 	}()
 	v := semver.MustParse(version)
