@@ -280,7 +280,7 @@ func reportState() {
 				log.Printf("reportState error %v", err)
 				time.Sleep(delayWhenError)
 			}
-			if lastReportHostInfo.Before(time.Now().Add(-5 * time.Minute)) {
+			if lastReportHostInfo.Before(time.Now().Add(-10 * time.Minute)) {
 				lastReportHostInfo = time.Now()
 				client.ReportSystemInfo(ctx, monitor.GetHost().PB())
 			}

@@ -18,9 +18,9 @@ import (
 )
 
 func main() {
-	// icmp()
-	// tcpping()
-	//httpWithSSLInfo()
+	icmp()
+	tcpping()
+	httpWithSSLInfo()
 	sysinfo()
 	// cmdExec()
 }
