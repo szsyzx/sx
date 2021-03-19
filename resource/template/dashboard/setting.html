@@ -6,13 +6,19 @@
         <form id="settingForm" class="ui large form" onsubmit="return false;">
             <div class="field">
                 <label>站点标题</label>
-                <input type="text" name="Title" placeholder="楠格监测" value="{{.Conf.Site.Brand}}">
+                <input type="text" name="Title" placeholder="楠格监测" value="{{.Conf.Site.Brand}}" style="
+                background: rgb(255 255 255 / 50%);
+            ">
             </div>
             <div class="field">
                 <label>管理员列表</label>
-                <input type="text" name="Admin" placeholder="1010,2020" value="{{.Conf.Oauth2.Admin}}">
+                <input type="text" name="Admin" placeholder="1010,2020" value="{{.Conf.Oauth2.Admin}}" style="
+                background: rgb(255 255 255 / 50%);
+            ">
             </div>
-            <div class="field">
+            <div class="field" style="
+            background: rgb(255 255 255 / 50%);
+        ">
                 <select name="Theme">
                     <option value="default"{{if eq .Conf.Site.Theme "default"}} selected="selected"{{end}}>默认主题</option>
                     <option value="daynight"{{if eq .Conf.Site.Theme "daynight"}} selected="selected"{{end}}>JackieSung DayNight</option>
@@ -21,11 +27,15 @@
             </div>
             <div class="field">
                 <label>自定义代码(style、script 都可以)</label>
-                <textarea name="CustomCode">{{.Conf.Site.CustomCode}}</textarea>
+                <textarea name="CustomCode" style="
+                background: rgb(255 255 255 / 50%);
+            ">{{.Conf.Site.CustomCode}}</textarea>
             </div>
             <div class="field">
                 <label>前台查看密码</label>
-                <input type="text" name="ViewPassword" placeholder="" value="{{.Conf.Site.ViewPassword}}">
+                <input type="text" name="ViewPassword" placeholder="" value="{{.Conf.Site.ViewPassword}}" style="
+                background: rgb(255 255 255 / 50%);
+            ">
             </div>
             <div class="field">
                 <div class="ui nf-ssl checkbox">

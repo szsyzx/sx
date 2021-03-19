@@ -60,7 +60,7 @@ func GetHost() *model.Host {
 		if ip.IP == "" {
 			ip.IP = string(body)
 		} else {
-			ip.IP = fmt.Sprintf("IP[IPv4: %s, IPv6: %s]", ip.IP, body)
+			ip.IP = fmt.Sprintf("IPs [IPv4: %s, IPv6: %s]", ip.IP, body)
 		}
 	}
 	return &model.Host{
