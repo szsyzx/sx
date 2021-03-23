@@ -1,101 +1,288 @@
-package monitor
+package main
 
 import (
+	"context"
+	"crypto/tls"
+	"errors"
+	"flag"
 	"fmt"
+	"log"
+	"net"
+	"net/http"
+	"os"
+	"os/exec"
 	"strings"
-	"sync/atomic"
 	"time"
 
-	"github.com/shirou/gopsutil/v3/cpu"
-	"github.com/shirou/gopsutil/v3/disk"
-	"github.com/shirou/gopsutil/v3/host"
-	"github.com/shirou/gopsutil/v3/mem"
-	"github.com/shirou/gopsutil/v3/net"
+	"github.com/blang/semver"
+	"github.com/genkiroid/cert"
+	"github.com/go-ping/ping"
+	"github.com/p14yground/go-github-selfupdate/selfupdate"
+	"google.golang.org/grpc"
 
+	"github.com/XOS/Probe/cmd/agent/monitor"
 	"github.com/XOS/Probe/model"
+	"github.com/XOS/Probe/pkg/utils"
+	pb "github.com/XOS/Probe/proto"
 	"github.com/XOS/Probe/service/dao"
+	"github.com/XOS/Probe/service/rpc"
 )
 
-var netInSpeed, netOutSpeed, netInTransfer, netOutTransfer, lastUpdate uint64
+var (
+	server       string
+	clientSecret string
+	version      string
+)
 
-func GetHost() *model.Host {
-	hi, _ := host.Info()
-	var cpuType string
-	if hi.VirtualizationSystem != "" {
-		cpuType = "Virtual"
+var (
+	reporting      bool
+	client         pb.ProbeServiceClient
+	ctx            = context.Background()
+	delayWhenError = time.Second * 10       // Agent 重连间隔
+	updateCh       = make(chan struct{}, 0) // Agent 自动更新间隔
+	httpClient     = &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+)
+
+func doSelfUpdate() {
+	defer func() {
+		time.Sleep(time.Minute * 30)
+		updateCh <- struct{}{}
+	}()
+	v := semver.MustParse(version)
+	log.Println("Check update", v)
+	latest, err := selfupdate.UpdateSelf(v, "XOS/Probe")
+	if err != nil {
+		log.Println("Binary update failed:", err)
+		return
+	}
+	if latest.Version.Equals(v) {
+		// latest version is the same as current version. It means current binary is up to date.
+		log.Println("Current binary is the latest version", version)
 	} else {
-		cpuType = "Physical"
-	}
-	cpuModelCount := make(map[string]int)
-	ci, _ := cpu.Info()
-	for i := 0; i < len(ci); i++ {
-		cpuModelCount[ci[i].ModelName]++
-	}
-	var cpus []string
-	for model, count := range cpuModelCount {
-		cpus = append(cpus, fmt.Sprintf("%s %d %s Core", model, count, cpuType))
-	}
-	mv, _ := mem.VirtualMemory()
-	ms, _ := mem.SwapMemory()
-	u, _ := disk.Usage("/")
-
-	return &model.Host{
-		Platform:        hi.OS,
-		PlatformVersion: hi.PlatformVersion,
-		CPU:             cpus,
-		MemTotal:        mv.Total,
-		DiskTotal:       u.Total,
-		SwapTotal:       ms.Total,
-		Arch:            hi.KernelArch,
-		Virtualization:  hi.VirtualizationSystem,
-		BootTime:        hi.BootTime,
-		IP:              cachedIP,
-		CountryCode:     strings.ToLower(cachedCountry),
-		Version:         dao.Version,
+		log.Println("Successfully updated to version", latest.Version)
+		os.Exit(1)
 	}
 }
 
-func GetState(delay int64) *model.HostState {
-	hi, _ := host.Info()
-	// Memory
-	mv, _ := mem.VirtualMemory()
-	ms, _ := mem.SwapMemory()
-	// CPU
-	var cpuPercent float64
-	cp, err := cpu.Percent(time.Second*time.Duration(delay), false)
-	if err == nil {
-		cpuPercent = cp[0]
-	}
-	// Disk
-	u, _ := disk.Usage("/")
-
-	return &model.HostState{
-		CPU:            cpuPercent,
-		MemUsed:        mv.Used,
-		SwapUsed:       ms.Used,
-		DiskUsed:       u.Used,
-		NetInTransfer:  atomic.LoadUint64(&netInTransfer),
-		NetOutTransfer: atomic.LoadUint64(&netOutTransfer),
-		NetInSpeed:     atomic.LoadUint64(&netInSpeed),
-		NetOutSpeed:    atomic.LoadUint64(&netOutSpeed),
-		Uptime:         hi.Uptime,
-	}
+func init() {
+	cert.TimeoutSeconds = 30
 }
 
-func TrackNetworkSpeed() {
-	var innerNetInTransfer, innerNetOutTransfer uint64
-	nc, err := net.IOCounters(false)
-	if err == nil {
-		innerNetInTransfer += nc[0].BytesRecv
-		innerNetOutTransfer += nc[0].BytesSent
-		now := uint64(time.Now().Unix())
-		diff := now - atomic.LoadUint64(&lastUpdate)
-		if diff > 0 {
-			atomic.StoreUint64(&netInSpeed, (innerNetInTransfer-atomic.LoadUint64(&netInTransfer))/diff)
-			atomic.StoreUint64(&netOutSpeed, (innerNetOutTransfer-atomic.LoadUint64(&netOutTransfer))/diff)
+func main() {
+	// 来自于 GoReleaser 的版本号
+	dao.Version = version
+
+	var debug bool
+	flag.String("i", "", "unused 旧Agent配置兼容")
+	flag.BoolVar(&debug, "d", false, "允许不安全连接")
+	flag.StringVar(&server, "s", "localhost:5555", "管理面板RPC端口")
+	flag.StringVar(&clientSecret, "p", "", "Agent连接Secret")
+	flag.Parse()
+
+	dao.Conf = &model.Config{
+		Debug: debug,
+	}
+
+	if server == "" || clientSecret == "" {
+		flag.Usage()
+		return
+	}
+
+	run()
+}
+
+func run() {
+	auth := rpc.AuthHandler{
+		ClientSecret: clientSecret,
+	}
+
+	// 上报服务器信息
+	go reportState()
+	// 更新IP信息
+	go monitor.UpdateIP()
+
+	if version != "" {
+		go func() {
+			for range updateCh {
+				go doSelfUpdate()
+			}
+		}()
+		updateCh <- struct{}{}
+	}
+
+	var err error
+	var conn *grpc.ClientConn
+
+	retry := func() {
+		log.Println("Error to close connection ...")
+		if conn != nil {
+			conn.Close()
 		}
-		atomic.StoreUint64(&netInTransfer, innerNetInTransfer)
-		atomic.StoreUint64(&netOutTransfer, innerNetOutTransfer)
-		atomic.StoreUint64(&lastUpdate, now)
+		time.Sleep(delayWhenError)
+		log.Println("Try to reconnect ...")
+	}
+
+	for {
+		conn, err = grpc.Dial(server, grpc.WithInsecure(), grpc.WithPerRPCCredentials(&auth))
+		if err != nil {
+			log.Printf("grpc.Dial err: %v", err)
+			retry()
+			continue
+		}
+		client = pb.NewProbeServiceClient(conn)
+		// 第一步注册
+		_, err = client.ReportSystemInfo(ctx, monitor.GetHost().PB())
+		if err != nil {
+			log.Printf("client.ReportSystemInfo err: %v", err)
+			retry()
+			continue
+		}
+		// 执行 Task
+		tasks, err := client.RequestTask(ctx, monitor.GetHost().PB())
+		if err != nil {
+			log.Printf("client.RequestTask err: %v", err)
+			retry()
+			continue
+		}
+		err = receiveTasks(tasks)
+		log.Printf("receiveTasks exit to main: %v", err)
+		retry()
+	}
+}
+
+func receiveTasks(tasks pb.ProbeService_RequestTaskClient) error {
+	var err error
+	defer log.Printf("receiveTasks exit %v => %v", time.Now(), err)
+	for {
+		var task *pb.Task
+		task, err = tasks.Recv()
+		if err != nil {
+			return err
+		}
+		go doTask(task)
+	}
+}
+
+func doTask(task *pb.Task) {
+	var result pb.TaskResult
+	result.Id = task.GetId()
+	result.Type = task.GetType()
+	switch task.GetType() {
+	case model.TaskTypeHTTPGET:
+		start := time.Now()
+		resp, err := httpClient.Get(task.GetData())
+		if err == nil {
+			result.Delay = float32(time.Now().Sub(start).Microseconds()) / 1000.0
+			if resp.StatusCode > 399 || resp.StatusCode < 200 {
+				err = errors.New("\n应用错误：" + resp.Status)
+			}
+		}
+		if err == nil {
+			if strings.HasPrefix(task.GetData(), "https://") {
+				c := cert.NewCert(task.GetData()[8:])
+				if c.Error != "" {
+					result.Data = "SSL证书错误：" + c.Error
+				} else {
+					result.Data = c.Issuer + "|" + c.NotAfter
+					result.Successful = true
+				}
+			} else {
+				result.Successful = true
+			}
+		} else {
+			result.Data = err.Error()
+		}
+	case model.TaskTypeICMPPing:
+		pinger, err := ping.NewPinger(task.GetData())
+		if err == nil {
+			pinger.SetPrivileged(true)
+			pinger.Count = 10
+			pinger.Timeout = time.Second * 20
+			err = pinger.Run() // Blocks until finished.
+		}
+		if err == nil {
+			result.Delay = float32(pinger.Statistics().AvgRtt.Microseconds()) / 1000.0
+			result.Successful = true
+		} else {
+			result.Data = err.Error()
+		}
+	case model.TaskTypeTCPPing:
+		start := time.Now()
+		conn, err := net.DialTimeout("tcp", task.GetData(), time.Second*10)
+		if err == nil {
+			conn.Write([]byte("ping\n"))
+			conn.Close()
+			result.Delay = float32(time.Now().Sub(start).Microseconds()) / 1000.0
+			result.Successful = true
+		} else {
+			result.Data = err.Error()
+		}
+	case model.TaskTypeCommand:
+		startedAt := time.Now()
+		var cmd *exec.Cmd
+		var endCh = make(chan struct{})
+		pg, err := utils.NewProcessExitGroup()
+		if err != nil {
+			// 进程组创建失败，直接退出
+			result.Data = err.Error()
+			client.ReportTask(ctx, &result)
+			return
+		}
+		timeout := time.NewTimer(time.Hour * 2)
+		if utils.IsWindows() {
+			cmd = exec.Command("cmd", "/c", task.GetData())
+		} else {
+			cmd = exec.Command("sh", "-c", task.GetData())
+		}
+		pg.AddProcess(cmd)
+		go func() {
+			select {
+			case <-timeout.C:
+				result.Data = "任务执行超时\n"
+				close(endCh)
+				pg.Dispose()
+			case <-endCh:
+				timeout.Stop()
+			}
+		}()
+		output, err := cmd.Output()
+		if err != nil {
+			result.Data += fmt.Sprintf("%s\n%s", string(output), err.Error())
+		} else {
+			close(endCh)
+			result.Data = string(output)
+			result.Successful = true
+		}
+		result.Delay = float32(time.Now().Sub(startedAt).Seconds())
+	default:
+		log.Printf("Unknown action: %v", task)
+	}
+	client.ReportTask(ctx, &result)
+}
+
+func reportState() {
+	var lastReportHostInfo time.Time
+	var err error
+	defer log.Printf("reportState exit %v => %v", time.Now(), err)
+	for {
+		if client != nil {
+			monitor.TrackNetworkSpeed()
+			_, err = client.ReportSystemState(ctx, monitor.GetState(dao.ReportDelay).PB())
+			if err != nil {
+				log.Printf("reportState error %v", err)
+				time.Sleep(delayWhenError)
+			}
+			if lastReportHostInfo.Before(time.Now().Add(-10 * time.Minute)) {
+				lastReportHostInfo = time.Now()
+				client.ReportSystemInfo(ctx, monitor.GetHost().PB())
+			}
+		}
 	}
 }

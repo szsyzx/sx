@@ -13,14 +13,12 @@ import (
 	pb "github.com/XOS/Probe/proto"
 )
 
-var Version = "v2.1.3" // ！！记得修改 README 中的 badge 版本！！
+var Version = "v2.1.3" // ！！记得修改 README 中的 badge 版本！
 
 const (
 	SnapshotDelay = 3
 	ReportDelay   = 2
 )
-
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
 
 var (
 	Conf  *model.Config
