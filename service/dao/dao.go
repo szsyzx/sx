@@ -13,7 +13,7 @@ import (
 	pb "github.com/XOS/Probe/proto"
 )
 
-var Version = "v2.0.1" // ！！记得修改 README 中的 badge 版本！！
+var Version = "v2.1.3" // ！！记得修改 README 中的 badge 版本！！
 
 const (
 	SnapshotDelay = 3

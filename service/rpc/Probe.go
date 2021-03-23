@@ -11,8 +11,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
-
 type ProbeHandler struct {
 	Auth *AuthHandler
 }
@@ -28,7 +26,9 @@ func (s *ProbeHandler) ReportTask(c context.Context, r *pb.TaskResult) (*pb.Rece
 		var errMsg string
 		if strings.HasPrefix(r.GetData(), "SSL证书错误：") {
 			// 排除 i/o timeont、connection timeout、EOF 错误
-			if !strings.HasSuffix(r.GetData(), "timeout") && r.GetData() != "EOF" {
+			if !strings.HasSuffix(r.GetData(), "timeout") &&
+				r.GetData() != "EOF" &&
+				!strings.HasSuffix(r.GetData(), "timed out") {
 				errMsg = r.GetData()
 			}
 		} else {
@@ -60,7 +60,7 @@ func (s *ProbeHandler) ReportTask(c context.Context, r *pb.TaskResult) (*pb.Rece
 		if errMsg != "" {
 			var monitor model.Monitor
 			dao.DB.First(&monitor, "id = ?", r.GetId())
-			dao.SendNotification(fmt.Sprintf("服务监测：%s %s", monitor.Name, errMsg), true)
+			dao.SendNotification(fmt.Sprintf("服务监控：%s %s", monitor.Name, errMsg), true)
 		}
 	}
 	if r.GetType() == model.TaskTypeCommand {
@@ -136,7 +136,7 @@ func (s *ProbeHandler) ReportSystemInfo(c context.Context, r *pb.Host) (*pb.Rece
 		host.IP != "" &&
 		dao.ServerList[clientID].Host.IP != host.IP {
 		dao.SendNotification(fmt.Sprintf(
-			"IP变动提醒 服务器：%s ，旧IP：%s，新IP：%s。",
+			"IP变更提醒 服务器：%s ，旧IP：%s，新IP：%s。",
 			dao.ServerList[clientID].Name, dao.ServerList[clientID].Host.IP, host.IP), true)
 	}
 	dao.ServerList[clientID].Host = &host

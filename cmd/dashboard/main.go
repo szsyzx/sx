@@ -16,8 +16,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
-
 func init() {
 	shanghai, err := time.LoadLocation("Asia/Shanghai")
 	if err != nil {
@@ -63,7 +61,7 @@ func initSystem() {
 }
 
 func cleanMonitorHistory() {
-	dao.DB.Delete(&model.MonitorHistory{}, "created_at < ?", time.Now().AddDate(0, -1, 0))
+	dao.DB.Delete(&model.MonitorHistory{}, "created_at < ?", time.Now().AddDate(0, 0, -30))
 }
 
 func loadServers() {
