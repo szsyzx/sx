@@ -16,8 +16,6 @@ const (
 	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
 )
 
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
-
 func RandStringBytesMaskImprSrcUnsafe(n int) string {
 	var src = rand.NewSource(time.Now().UnixNano())
 	b := make([]byte, n)

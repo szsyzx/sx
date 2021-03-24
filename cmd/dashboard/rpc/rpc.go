@@ -13,8 +13,6 @@ import (
 	rpcService "github.com/XOS/Probe/service/rpc"
 )
 
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
-
 func ServeRPC(port uint) {
 	server := grpc.NewServer()
 	pb.RegisterProbeServiceServer(server, &rpcService.ProbeHandler{

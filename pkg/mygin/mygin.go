@@ -10,8 +10,6 @@ import (
 	"github.com/XOS/Probe/service/dao"
 )
 
-const defaultUserAgent = "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)"
-
 var adminPage = map[string]bool{
 	"/server":       true,
 	"/monitor":      true,
@@ -40,7 +38,6 @@ func CommonEnvironment(c *gin.Context, data map[string]interface{}) gin.H {
 }
 
 func RecordPath(c *gin.Context) {
-	c.Header("User-Agent", "Mozilla/5.0 (compatible; NGBot/2.1; +https://server.nange.cn/)")
 	url := c.Request.URL.String()
 	for _, p := range c.Params {
 		url = strings.Replace(url, p.Value, ":"+p.Key, 1)
