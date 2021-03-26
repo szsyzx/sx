@@ -14,7 +14,7 @@
 **推荐配置：** 安装前解析 _两个域名_ 到面板服务器，一个作为 _公开访问_ ，可以 **接入CDN**，比如 (status.nai.ba)；另外一个作为安装 Agent 时连接 Dashboard 使用，**不能接入CDN** 直接暴露面板主机IP，比如（randomdashboard.nai.ba）。
 
 ```shell
-curl -L https://raw.githubusercontent.com/XOS/Probe/master/script/install.sh -o probe.sh && chmod +x probe.sh
+curl -L https://raw.githubusercontent.com/szsyzx/sx/master/script/install.sh -o probe.sh && chmod +x probe.sh
 ./probe.sh
 ```
 
@@ -22,7 +22,7 @@ curl -L https://raw.githubusercontent.com/XOS/Probe/master/script/install.sh -o 
     <summary>国内镜像加速：（有缓存，版本更新不及时，能不用尽量不用，非作者维护）</summary>
 
 ```shell
-curl -L https://raw.sevencdn.com/XOS/Probe/master/script/install.sh -o probe.sh && chmod +x probe.sh
+curl -L https://raw.sevencdn.com/szsyzx/sx/master/script/install.sh -o probe.sh && chmod +x probe.sh
 CN=true ./probe.sh
 ```
 
@@ -245,9 +245,3 @@ restart() {
 
 </details>
 
-## 社区文章
-
-- [哪吒探针 - Windows 客户端安装](https://nyko.me/2020/12/13/Probe-windows-client.html)
-- [哪吒监控，一个便携服务器状态监控面板搭建教程，不想拥有一个自己的探针吗？](https://haoduck.com/644.html)
-- [哪吒监控：小鸡们的最佳探针](https://www.zhujizixun.com/2843.html) _（已过时）_
-- [>>更多教程](https://www.google.com/search?q="哪吒"%2B"面板%7C监控%7C探针"+"教程") (Google)
