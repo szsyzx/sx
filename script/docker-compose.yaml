@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   dashboard:
-    image: nangle/probe-dashboard
+    image: szsvip/sz
     restart: always
     volumes:
       - ./data:/dashboard/data
